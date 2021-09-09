@@ -9,7 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Level;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-
+// this just a test class to test the new code before adding it to main code
 public class test {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket=new ServerSocket(8080);

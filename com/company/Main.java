@@ -18,15 +18,18 @@ import java.util.Date;
 
 public class Main {
     public static final String ALGORITHM = "RSA";
+
     public static String dir=System.getProperty("user.home");
     public static void main(String[] args) throws Exception {
         byte[] pk,sk;
+        // if statement checks if the key pairs have been created before and saved in the encrypted file
         if (Files.exists(Paths.get(dir+"/Music/crypto/encryptedfile-pub.des"))){
             String password = "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824";
             pk=decryptfile(dir+"/Music/crypto/encryptedfile-pub.des",dir+"/Music/crypto/publickey.txt","2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",dir+"/Music/crypto/saltpub.enc",dir+"/Music/crypto/ivpub.enc");
             sk=decryptfile(dir+"/Music/crypto/encryptedfile-sec.des",dir+"/Music/crypto/secretkey.txt","2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",dir+"/Music/crypto/saltsec.enc",dir+"/Music/crypto/ivsec.enc");
 
         }
+        // well if the program is running for the first time then it creates the pair of public and private key and saves them in the file
         else {
             KeyPairGenerator keygen= KeyPairGenerator.getInstance("RSA");
             keygen.initialize(2048);
@@ -36,7 +39,7 @@ public class Main {
             PrivateKey secretkey= kypr.getPrivate();
             pk = publicKeyk.getEncoded();
             sk = secretkey.getEncoded();
-
+            // the below encrypt key file function encrypts the files in which the keys are saved.
             String confirmation_pub= encryptfile(dir + "/Music/crypto/pub.txt",dir+"/Music/crypto/encryptedfile-pub.des",pk,"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",dir+"/Music/crypto/saltpub.enc",dir+"/Music/crypto/ivpub.enc");
             String confirmation_sec= encryptfile(dir + "/Music/crypto/sec.txt",dir+"/Music/crypto/encryptedfile-sec.des",sk,"2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824",dir+"/Music/crypto/saltsec.enc",dir+"/Music/crypto/ivsec.enc");
             System.out.print("public key: "+confirmation_pub+"\n");
@@ -102,6 +105,7 @@ public class Main {
         return key;
 
     }
+    // this is the function that is used to decrypt the encrypted key file , well you need not know how this function works just see the parameters and understand what it returns
     public static byte[] decryptfile(String filename,String outfile,String password,String saltfile,String ivfile) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidAlgorithmParameterException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 
 
@@ -151,6 +155,7 @@ public class Main {
         return key;
 
     }
+    // this function is used to encrypt the key files
     public static String encryptfile(String filename,String outfile,byte[] data,String password,String saltfile,String ivfile) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException, NoSuchPaddingException, InvalidKeyException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException {
         FileUtils.writeByteArrayToFile(new File(filename),data);
         FileOutputStream outFile = new FileOutputStream(outfile);

@@ -10,7 +10,7 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.util.Date;
-
+// test class
 public class client2 {
     public static void main(String[] args) throws NoSuchAlgorithmException, IOException {
         KeyPairGenerator keygen= KeyPairGenerator.getInstance("DSA");
